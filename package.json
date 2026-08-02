@@ -1,7 +1,7 @@
 {
   "name": "pagefirst-ai-assistant",
   "displayName": "PageFirst AI Assistant",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Page-first privacy-focused AI browser assistant with local memory and BYOK model support.",
   "type": "module",
   "scripts": {

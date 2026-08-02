@@ -10,7 +10,7 @@ export default defineConfig({
   manifest: {
     name: 'PageFirst AI Assistant',
     description: 'Page-first AI browser assistant with active context summary, BYOK LLMs, and local memory.',
-    version: '1.1.0',
+    version: '1.1.1',
     icons: {
       16: 'icon/16.png',
       32: 'icon/32.png',
