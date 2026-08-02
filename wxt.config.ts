@@ -25,6 +25,7 @@ export default defineConfig({
       'tabs',
       'contextMenus'
     ],
+    host_permissions: ['<all_urls>'],
     action: {
       default_icon: {
         16: 'icon/16.png',
