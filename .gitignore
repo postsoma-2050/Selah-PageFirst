@@ -1,0 +1,10 @@
+# Dependencies
+node_modules/
+
+# Build & WXT Outputs
+.wxt/
+dist/
+
+# OS / IDE
+.DS_Store
+*.log
