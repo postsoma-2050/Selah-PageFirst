@@ -635,7 +635,7 @@ export default function SidePanel() {
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 min-w-0">
               <h1 className="text-xs font-bold tracking-tight text-white font-sans truncate">Selah PageFirst</h1>
-              <span className="text-[9px] text-sky-400 font-mono font-bold bg-sky-950/80 px-1 py-0.2 rounded border border-sky-800/60 shrink-0">v1.1.1</span>
+              <span className="text-[9px] text-sky-400 font-mono font-bold bg-sky-950/80 px-1 py-0.2 rounded border border-sky-800/60 shrink-0">v1.1.2</span>
             </div>
             <p className="text-[9px] text-slate-400 font-mono truncate">
               Selah Reading Tools • Page-First AI Assistant • by postsoma-2050
