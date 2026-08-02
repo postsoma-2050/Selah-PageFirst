@@ -5,6 +5,7 @@ import { Copy, Check, Terminal } from 'lucide-react';
 
 interface MarkdownRendererProps {
   content: string;
+  fontSizeScale?: 'sm' | 'base' | 'lg';
 }
 
 function CodeBlock({ children, className }: { children: React.ReactNode; className?: string }) {
@@ -40,34 +41,40 @@ function CodeBlock({ children, className }: { children: React.ReactNode; classNa
   );
 }
 
-export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
+export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, fontSizeScale = 'sm' }) => {
+  const sizeClass = fontSizeScale === 'lg'
+    ? 'text-[15px] sm:text-[16px]'
+    : fontSizeScale === 'base'
+    ? 'text-[13.5px] sm:text-[14.5px]'
+    : 'text-[12px] sm:text-[13px]';
+
   return (
-    <div className="markdown-body space-y-2.5 text-[12px] sm:text-[13px] text-slate-200 leading-relaxed font-sans tracking-normal">
+    <div className={`markdown-body space-y-2.5 ${sizeClass} text-slate-200 leading-relaxed font-sans tracking-normal`}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
           h1: ({ children }) => (
-            <h1 className="text-sm font-bold text-white mt-3.5 mb-2 pb-1 border-b border-slate-800 tracking-wide font-sans">
+            <h1 className="text-sm sm:text-base font-bold text-white mt-3.5 mb-2 pb-1 border-b border-slate-800 tracking-wide font-sans">
               {children}
             </h1>
           ),
           h2: ({ children }) => (
-            <h2 className="text-[13px] font-bold text-slate-100 mt-3 mb-1.5 pb-0.5 border-b border-slate-800/60 font-sans">
+            <h2 className="text-[13px] sm:text-[14px] font-bold text-slate-100 mt-3 mb-1.5 pb-0.5 border-b border-slate-800/60 font-sans">
               {children}
             </h2>
           ),
           h3: ({ children }) => (
-            <h3 className="text-xs font-bold text-indigo-300 mt-2.5 mb-1 font-sans">
+            <h3 className="text-xs sm:text-sm font-bold text-indigo-300 mt-2.5 mb-1 font-sans">
               {children}
             </h3>
           ),
           h4: ({ children }) => (
-            <h4 className="text-xs font-semibold text-slate-300 mt-2 mb-0.5 font-sans">
+            <h4 className="text-xs sm:text-sm font-semibold text-slate-300 mt-2 mb-0.5 font-sans">
               {children}
             </h4>
           ),
           p: ({ children }) => (
-            <p className="mb-2 leading-relaxed text-slate-200/90 text-[12px] sm:text-[13px]">
+            <p className={`mb-2 leading-relaxed text-slate-200/90 ${sizeClass}`}>
               {children}
             </p>
           ),

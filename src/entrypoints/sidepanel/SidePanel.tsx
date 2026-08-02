@@ -146,10 +146,29 @@ export default function SidePanel() {
   const [recentSessions, setRecentSessions] = useState<SessionMemory[]>([]);
   const [sessionId, setSessionId] = useState<string>(() => `sess_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`);
   const [responseLanguage, setResponseLanguage] = useState<LanguageMode>('auto');
+  const [fontSizeScale, setFontSizeScale] = useState<'sm' | 'base' | 'lg'>('sm');
 
   const currentUrlRef = useRef<string>('');
   const chatScrollRef = useRef<HTMLDivElement | null>(null);
   const memoryStore = new MemoryStore();
+
+  useEffect(() => {
+    if (typeof chrome !== 'undefined' && chrome.storage?.local) {
+      chrome.storage.local.get(['fontSizeScale'], (res) => {
+        if (res.fontSizeScale && ['sm', 'base', 'lg'].includes(res.fontSizeScale)) {
+          setFontSizeScale(res.fontSizeScale as any);
+        }
+      });
+    }
+  }, []);
+
+  const handleCycleFontSize = () => {
+    const nextScale: 'sm' | 'base' | 'lg' = fontSizeScale === 'sm' ? 'base' : fontSizeScale === 'base' ? 'lg' : 'sm';
+    setFontSizeScale(nextScale);
+    if (typeof chrome !== 'undefined' && chrome.storage?.local) {
+      chrome.storage.local.set({ fontSizeScale: nextScale });
+    }
+  };
 
   const refreshProviderConfig = async () => {
     const cfg = await loadSavedProviderConfig();
@@ -637,6 +656,16 @@ export default function SidePanel() {
           <span className="w-[1px] h-3 bg-[#1E2634]" />
 
           <button
+            onClick={handleCycleFontSize}
+            title={`Font Size: ${fontSizeScale === 'sm' ? 'Small (13px)' : fontSizeScale === 'base' ? 'Medium (15px)' : 'Large (17px)'}. Click to cycle (A⁻ -> A -> A⁺)`}
+            className="px-1.5 sm:px-2 py-1 rounded text-[10px] font-mono font-bold transition flex items-center gap-1 bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 active:scale-95 shrink-0"
+          >
+            <span>{fontSizeScale === 'sm' ? '[ A⁻ ]' : fontSizeScale === 'base' ? '[ A ]' : '[ A⁺ ]'}</span>
+          </button>
+
+          <span className="w-[1px] h-3 bg-[#1E2634]" />
+
+          <button
             onClick={() => setShowHistoryModal(!showHistoryModal)}
             title="View Recent Session Memories"
             className={`p-1.5 rounded transition active:scale-95 ${showHistoryModal ? 'bg-slate-800 text-sky-300' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}`}
@@ -1060,7 +1089,7 @@ export default function SidePanel() {
                 {/* Render Message Body */}
                 <div className="pt-0.5">
                   {msg.content ? (
-                    <MarkdownRenderer content={msg.content} />
+                    <MarkdownRenderer content={msg.content} fontSizeScale={fontSizeScale} />
                   ) : status === 'loading' ? (
                     <span className="text-slate-400 italic text-xs animate-pulse font-mono">Generating analysis document...</span>
                   ) : null}
